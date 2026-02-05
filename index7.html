@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Burbujas 3D con Three.js</title>
+    <style> body { margin: 0; overflow: hidden; } </style>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+    <script>
+        // Escena, cámara y renderizador
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Crear burbujas
+        const bubbles = [];
+        const bubbleCount = Math.min(1e6, 200);  // Limitar el número de burbujas a 1 millón
+
+        for (let i = 0; i < bubbleCount; i++) {
+            const geometry = new THREE.SphereGeometry(Math.random() * 0.5 + 0.2, 32, 32);  // Tamaños aleatorios
+            const material = new THREE.MeshBasicMaterial({ color: 0x00aaff, wireframe: true });
+            const bubble = new THREE.Mesh(geometry, material);
+
+            // Posición aleatoria en x, y, z dentro de los límites de la ventana
+            bubble.position.set(Math.random() * window.innerWidth - window.innerWidth / 2, 
+                                Math.random() * 5 - 2.5, 
+                                Math.random() * window.innerHeight - window.innerHeight / 2);
+
+            // Velocidad aleatoria
+            bubble.velocity = new THREE.Vector3(
+                (Math.random() - 0.5) * 0.1,
+                (Math.random() - 0.5) * 0.1,  // Velocidad en y también aleatoria
+                (Math.random() - 0.5) * 0.1
+            );
+
+            scene.add(bubble);
+            bubbles.push(bubble);
+        }
+
+        // Cámara
+        camera.position.z = 15;
+
+        // Función de animación
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Actualizar la posición de cada burbuja
+            for (const bubble of bubbles) {
+                bubble.position.add(bubble.velocity);
+
+                // Limitar el movimiento solo en el eje Y
+                if (bubble.position.y > 2.5 || bubble.position.y < -2.5) {
+                    bubble.velocity.y *= -1;  // Rebotar cuando se alcanza el límite en Y
+                }
+
+                // Rebotar en los límites del eje X (borde del navegador)
+                if (bubble.position.x > window.innerWidth / 2 || bubble.position.x < -window.innerWidth / 2) {
+                    bubble.velocity.x *= -1;
+                }
+
+                // Rebotar en los límites del eje Z (borde del navegador)
+                if (bubble.position.z > window.innerHeight / 2 || bubble.position.z < -window.innerHeight / 2) {
+                    bubble.velocity.z *= -1;
+                }
+            }
+
+            // Renderizar la escena
+            renderer.render(scene, camera);
+        }
+
+        // Iniciar animación
+        animate();
+
+        // Función para manejar el cambio de tamaño de la ventana
+        window.addEventListener('resize', onWindowResize, false);
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+    </script>
+</body>
+</html>

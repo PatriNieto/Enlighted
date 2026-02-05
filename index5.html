@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Partículas con p5.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.js"></script>
+    <style> body { margin: 0; overflow: hidden; } </style>
+</head>
+<body>
+    <script>
+        let particles = [];
+
+        function setup() {
+            createCanvas(windowWidth, windowHeight, WEBGL);  // Usar el renderer 3D
+            for (let i = 0; i < 400; i++) {  // Aumentar la cantidad de partículas
+                particles.push(new Particle());
+            }
+        }
+
+        function draw() {
+            background(0);
+            pointLight(255, 255, 255, mouseX, mouseY, 200);  // Luz puntual en la posición del mouse
+            for (let p of particles) {
+                p.update();
+                p.show();
+            }
+        }
+
+        class Particle {
+            constructor() {
+                this.x = random(-width / 2, width / 2);  // Generar partículas en 3D
+                this.y = random(-height / 2, height / 2);  // Generar partículas en 3D
+                this.z = random(-500, 500);  // Profundidad en el eje Z
+                this.vx = random(-1, 1);
+                this.vy = random(-1, 1);
+                this.vz = random(-1, 1);  // Velocidad en el eje Z
+                this.size = random(5, 15);  // Hacer las partículas más pequeñas
+                this.alpha = random(100, 255);
+                this.sizeChangeRate = random(0.05, 0.1);  // Tasa de cambio de tamaño
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.z += this.vz;  // Actualizar la posición Z de la partícula
+
+                // Cambiar el tamaño de la partícula con el tiempo
+                this.size += this.sizeChangeRate;
+                if (this.size >= 7 || this.size <= 1) {
+                    this.sizeChangeRate *= -1;  // Cambiar la dirección del cambio de tamaño
+                }
+
+                // Rebotar en los bordes horizontales y en el eje Z
+                if (this.x < -width / 2 || this.x > width / 2) {
+                    this.vx *= -1;
+                }
+
+                if (this.y < -height / 2 || this.y > height / 2) {
+                    this.vy *= -1;
+                }
+
+                if (this.z < -500 || this.z > 500) {
+                    this.vz *= -1;
+                }
+            }
+
+            show() {
+                noStroke();
+                fill(255, 255, 255, this.alpha);
+                push();
+                translate(this.x, this.y, this.z);  // Posicionar la partícula en 3D
+                sphere(this.size);  // Dibujar la esfera
+                pop();
+            }
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+    </script>
+</body>
+</html>

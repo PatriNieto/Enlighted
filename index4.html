@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Página con Burbujas</title>
+    <style>
+        body {
+          margin: 0; /* Elimina márgenes predeterminados del body */
+          overflow: hidden; /* Evita barras de scroll innecesarias */
+          background-color: #000; /* Fondo negro para mejor contraste */
+        }
+        .burbujas-container {
+            position: fixed; /* Fixed para que cubra toda la ventana */
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: -1; /* Detrás del contenido */
+            pointer-events: none; /* Permite interactuar con el contenido debajo */
+        }
+
+        .burbuja {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            width: 50px;
+            height: 50px;
+            bottom: -50px;
+            animation: burbujear 8s linear infinite;
+        }
+
+        @keyframes burbujear {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+        }
+
+        .burbuja:nth-child(2n) {
+            width: 30px;
+            height: 30px;
+            animation-duration: 6s;
+        }
+
+        .burbuja:nth-child(3n) {
+            width: 70px;
+            height: 70px;
+            animation-duration: 10s;
+        }
+    </style>
+</head>
+<body>
+    <div class="burbujas-container"></div>
+
+    <script>
+        const contenedorBurbujas = document.querySelector('.burbujas-container');
+        const cantidadBurbujas = 20;
+
+        for (let i = 0; i < cantidadBurbujas; i++) {
+            const burbuja = document.createElement('div');
+            burbuja.classList.add('burbuja');
+            burbuja.style.left = `${Math.random() * 100}vw`;
+            burbuja.style.animationDelay = `${Math.random() * 2}s`;
+            burbuja.style.animationDuration = `${Math.random() * 5 + 5}s`; // Variar duración entre 5 y 10s
+
+          //Tamaño aleatorio entre 20 y 80px
+            const size = Math.random() * 60 + 20;
+            burbuja.style.width = `${size}px`;
+            burbuja.style.height = `${size}px`;
+
+            contenedorBurbujas.appendChild(burbuja);
+        }
+    </script>
+    <h1>Contenido de tu página</h1>
+    <p>Aquí puedes agregar el texto, imágenes y otros elementos que desees.</p>
+</body>
+</html>

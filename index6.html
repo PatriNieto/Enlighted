@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Burbujas 3D con Three.js</title>
+    <style> body { margin: 0; overflow: hidden; } </style>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const geometry = new THREE.SphereGeometry(1, 32, 32); // Esfera con más detalle
+        const material = new THREE.MeshStandardMaterial( { color: 0x00ffff, transparent: true, opacity: 0.5 } ); // Material transparente
+        const sphere = new THREE.Mesh( geometry, material );
+        scene.add( sphere );
+
+        const ambientLight = new THREE.AmbientLight( 0x404040 ); // Luz ambiental suave
+        scene.add( ambientLight );
+
+        const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+        scene.add( directionalLight );
+
+        camera.position.z = 5;
+
+        function animate() {
+            requestAnimationFrame( animate );
+            sphere.rotation.x += 0.01; // Ejemplo de animación
+            sphere.rotation.y += 0.01;
+            renderer.render( scene, camera );
+        }
+
+        animate();
+    </script>
+</body>
+</html>

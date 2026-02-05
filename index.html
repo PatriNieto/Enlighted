@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baskervville:ital,wght@0,400..700;1,400..700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Corinthia:wght@400;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <title>Enlighted</title>
+    <style>
+        /* variables CSS */ 
+        :root {
+            --midnight: #1e1a2b;
+            --midnight2: #04000b;
+            --moss: #6b708e;
+            --gold: #c0d5ec;
+            --sage: #a1a0b5;
+            --mist: #e7e6eb;
+        }
+
+        /* Reset de estilos */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilos globales */
+        body {
+            font-family: 'Philosopher', sans-serif;
+            background: linear-gradient(135deg, var(--midnight) 0%, var(--midnight2) 100%);
+            color: var(--mist);
+            overflow: hidden;
+            height: 100vh; 
+            cursor: none;
+        }
+
+        /* Cursor */
+        .cursor {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.15s ease-out, width 0.2s, height 0.2s;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10001;
+            transition: transform 0.05s ease-out;
+        }
+
+        /* stars background*/
+        .stars {
+            position: fixed;    
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--mist);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: twinkle 3s infinite;
+        }
+
+        /* animaciones */
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Orbs  */
+        .orbs-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* AQUÍ es donde funciona */
+    pointer-events: none; /* Los clicks pasan a través */
+    z-index: 2;
+}
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.15;
+            animation: float-orb 20s infinite ease-in-out;
+            will-change: transform;
+        }
+
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--gold);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 200px;
+            height: 200px;
+            background: var(--moss);
+            bottom: 20%;
+            right: 15%;
+            animation-delay: 5s;
+        }
+
+        .orb-3 {
+            width: 250px;
+            height: 250px;
+            background: var(--sage);
+            top: 60%;
+            left: 70%;
+            animation-delay: 10s;
+        }
+
+        @keyframes float-orb {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(50px, -30px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-30px, 40px) scale(0.9);
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .mandala {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            animation: fadeInRotate 3s ease-out forwards;
+        }
+
+        .mandala-1 {
+            width: 600px;
+            height: 600px;
+            animation-delay: 0.5s;
+        }
+
+        .mandala-2 {
+            width: 400px;
+            height: 400px;
+            animation-delay: 1s;
+        }
+
+        @keyframes fadeInRotate {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) rotate(0deg) scale(0.8);
+            }
+
+            to {
+                opacity: 0.2;
+                transform: translate(-50%, -50%) rotate(180deg) scale(1);
+            }
+        }
+
+        .content {
+            position: relative;
+            z-index: 100;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInContent 2s ease-out 1s forwards;
+
+        }
+
+        @keyframes fadeInContent {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .logo-wrapper {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .logo-circle {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 2rem;
+            position: relative;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+        }
+
+        /* Typography */
+
+        h1 {
+            font-family: "Bodoni Moda", serif;
+            font-size: clamp(3.5rem, 10vw, 7rem);
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+            color: var(--gold);
+            text-shadow: 0 0 30px rgba(65, 55, 212, 0.5);
+            line-height: 1;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: var(--sage);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .location {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            color: var(--mist);
+            margin-bottom: 2rem;
+            letter-spacing: 0.1em;
+        }
+
+        .dates {
+            font-family: 'Libre Baskerville', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--gold);
+            letter-spacing: 0.1em;
+            margin-top: 2rem;
+            text-shadow: 0 0 20px rgba(71, 55, 212, 0.3);
+        }
+
+        .divider {
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 2.5rem auto;
+            position: relative;
+            opacity: 0;
+            animation: expandGlow 2s ease-out 1.5s forwards;
+
+        }
+
+        @keyframes expandGlow {
+            from {
+                width: 0;
+                opacity: 0;
+            }
+
+            to {
+                width: 200px;
+                opacity: 1;
+            }
+        }
+
+        /*animacion .divider*/
+        .divider::before, 
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateX(-50%);
+            width:8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 10px var(--gold);
+        }
+
+        .divider::before {
+            left: -15px;
+        }
+        .divider::after {
+            right: -15px;
+        }
+
+        /* Floating symbols */
+        .symbol {
+            position: absolute;
+            color: var(--sage);
+            font-size: 1.5rem;
+            opacity: 0.3;
+            will-change: transform;
+        }
+        .symbol-1 {
+            top: 15%;
+            left: 20%;     
+        }
+        .symbol-2 {
+            top: 70%;
+            right: 15%;     
+        }
+        .symbol-3 {
+            bottom: 20%;
+            left: 15%;     
+        }
+        .symbol-4 {
+            bottom: 20%;        
+            right: 25%;     
+        }
+
+        /* Parallax layers */
+        .layer-slow {
+            transition: transform 0.4s ease-out;
+        }
+
+        .layer-medium {
+            transition: transform 0.3s ease-out;
+        }
+        .layer-fast {
+            transition: transform 0.15s ease-out;
+        }
+
+        /* Responsive adjustments */
+     /* Responsive adjustments */
+@media (max-width: 768px) {
+         body {
+        cursor: auto;
+        
+    }
+    .container {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .cursor, .cursor-dot {
+        display: none;
+    }
+
+    /* Reducir tamaño de mandalas */
+    .mandala-1 {
+        width: 350px;
+        height: 350px;
+    }
+
+    .mandala-2 {
+        width: 250px;
+        height: 250px;
+    }
+
+    /* Reducir orbes */
+    .orb-1 {
+        width: 200px;
+        height: 200px;
+    }
+
+    .orb-2 {
+        width: 150px;
+        height: 150px;
+    }
+
+    .orb-3 {
+        width: 180px;
+        height: 180px;
+    }
+
+    /* Título más pequeño */
+    h1 {
+        font-size: clamp(2.5rem, 12vw, 4rem);
+        letter-spacing: 0.1em;
+    }
+
+    /* Logo más pequeño */
+    .logo-circle {
+        width: 100px;
+        height: 100px;
+    }
+
+    /* Símbolos más pequeños y menos opacidad */
+    .symbol {
+        font-size: 1rem;
+        opacity: 0.2;
+    }
+
+    /* Padding del contenedor */
+    .content {
+        padding: 0 1rem;
+    }
+
+    /* Desactivar animaciones parallax en móvil */
+    .layer-slow,
+    .layer-medium,
+    .layer-fast {
+        transform: none !important;
+        transition: none;
+    }
+
+    /* Reducir número de estrellas visualmente */
+    .star:nth-child(n+100) {
+        display: none;
+    }
+}
+
+/* Para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .logo-circle {
+        width: 80px;
+        height: 80px;
+    }
+
+    .dates {
+        font-size: 1.5rem;
+    }
+
+    .subtitle,
+    .location {
+        font-size: 0.9rem;
+    }
+}
+    </style>
+</head>
+
+<body>
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <div class="stars" id="stars"></div>
+
+    <!--floaintg orbs -->
+    <div class="orbs-wrapper">
+    <div class="orb orb-1 layer-slow"></div>
+    <div class="orb orb-2 layer-slow"></div>
+    <div class="orb orb-3 layer-slow"></div>
+  
+    <!--floaintg symbols -->
+<!--     <div class="symbol symbol-1 layer-fast">✧</div>
+    <div class="symbol symbol-2 layer-fast">✦</div>
+    <div class="symbol symbol-3 layer-medium">✵</div>
+    <div class="symbol symbol-4 layer-fast">✺</div> -->
+</div>
+    <div class="container">
+        <!-- Mandala deco-->
+        <svg class="mandala mandala-1 layer-medium" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+
+            <defs>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:var(--gold);stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:var(--moss);stop-opacity:1" />
+                </linearGradient>
+            </defs>
+
+
+            <circle cx="100" cy="100" r="90" fill="none" stroke="url(#grad1)" stroke-width="0.5" />
+            <circle cx="100" cy="100" r="70" fill="none" stroke="url(#grad1)" stroke-width="0.5" />
+            <circle cx="100" cy="100" r="50" fill="none" stroke="url(#grad1)" stroke-width="0.5" />
+            <path d="M100,10 L100,190 M10,100 L190,100 M30,30 L170,170 M170,30 L30,170" stroke="url(#grad1)"
+                stroke-width="0.3" opacity="0.5" />
+        </svg>
+        <svg class="mandala mandala-2 layer-fast" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="80" fill="none" stroke="var(--gold)" stroke-width="0.5" opacity="0.4" />
+            <circle cx="100" cy="100" r="60" fill="none" stroke="var(--gold)" stroke-width="0.5" opacity="0.4" />
+            <circle cx="100" cy="100" r="40" fill="none" stroke="var(--gold)" stroke-width="0.5" opacity="0.4" />
+            <circle cx="100" cy="100" r="20" fill="none" stroke="var(--gold)" stroke-width="0.5" opacity="0.4" />
+        </svg>
+
+        <!--Content-->
+        <div class="content">
+            <div class="logo-wrapper">
+                <svg class="logo-circle" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="75" cy="75" r="70" fill="none" stroke="var(--gold)" stroke-width="1.5" />
+                    <circle cx="75" cy="75" r="50" fill="none" stroke="var(--gold)" stroke-width="1" />
+                    
+                    <circle cx="75" cy="75" r="8" fill="var(--sage)" />
+                </svg>
+            </div>
+            <h1 class="title layer-medium">Enlighted</h1>
+            <div class="divider"></div>
+            <div class="info">
+                <p class="subtitle">Summer Soltice</p>
+            <p class="location">Madrid, Wonderland</p>
+            <p class="dates">12-24 June</p>
+            </div>
+            
+
+        </div>
+
+    </div>
+    <script>
+
+        //generate random stars
+        const starsContainer = document.getElementById('stars');
+        const numStars = 200;
+        for (let i = 0; i < numStars; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.width = star.style.height = Math.random() * 2 + 1 +
+                'px';
+
+            starsContainer.appendChild(star);
+        }
+
+        //custom cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        let cursorX = 0,
+            cursorY = 0,
+            dotX = 0,
+            dotY = 0;
+        document.addEventListener('mousemove', (e) => {
+            cursorX = e.clientX;
+            cursorY = e.clientY;
+        });
+
+        function animateCursor() {
+            const cursorCurrentX = parseFloat(cursor.style.left) || cursorX;
+            const cursorCurrentY = parseFloat(cursor.style.top) || cursorY;
+
+            const newCursorX = cursorCurrentX + (cursorX - cursorCurrentX) * 0.1;
+            const newCursorY = cursorCurrentY + (cursorY - cursorCurrentY) * 0.1;
+
+            cursor.style.left = newCursorX + 'px';
+            cursor.style.top = newCursorY + 'px';
+
+            //dots
+            const dotCurrentX = parseFloat(cursorDot.style.left) || cursorX;
+            const dotCurrentY = parseFloat(cursorDot.style.top) || cursorY;
+
+            const newDotX = dotCurrentX + (cursorX - dotCurrentX) * 0.2;
+            const newDotY = dotCurrentY + (cursorY - dotCurrentY) * 0.2;
+
+
+            cursorDot.style.left = newDotX + 'px';
+            cursorDot.style.top = newDotY + 'px';
+
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+
+        //parallax effect
+        let mouseX = 0;
+        let mouseY = 0;
+        let currentX = 0;
+        let currentY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+        });
+
+        function animateParallax() {
+            currentX += (mouseX - currentX) * 0.05;
+            currentY += (mouseY - currentY) * 0.05;
+
+            //slow layer
+            document.querySelectorAll('.layer-slow').forEach((el, index) => {
+                const depth = 15 + index * 5; // Adjust depth for each element
+                const rotateAmount = currentX * 5; // Rotation strength
+
+                //apply transform - translate for parallax, rotate for dynamic effect, scale for depth
+                el.style.transform = `translate3d(${currentX * depth}px, ${currentY * depth}px, 0) rotateY(${rotateAmount}deg))`;
+            });
+
+            //medium layer
+            document.querySelectorAll('.layer-medium').forEach((el, index) => {
+                const depth = 25 + index * 8; // Adjust depth for each element
+                const rotateAmount = -currentX * 10; // Rotation strength
+                const scale = 1 + Math.abs(currentX) * 0.05; // Scale based on horizontal movement
+                el.style.transform = `translate3d(${currentX * depth}px, ${currentY * depth}px, 0) rotateY(${rotateAmount}deg) scale(${scale})`;
+            });
+
+            //fast layer
+            document.querySelectorAll('.layer-fast').forEach((el, index) => {
+                const depth = 40 + index * 10; // Adjust depth for each element
+                const rotateAmount = currentX * 15; // Rotation strength
+                el.style.transform = `translate3d(${currentX * depth}px, ${currentY * depth}px, 0) rotateY(${rotateAmount}deg)`;
+            });
+
+            //content tilt
+            const content = document.querySelector('.content');
+            if (content) {
+                const tiltX = currentY * 3; // Tilt strength
+                const tiltY = currentX * 3; // Tilt strength
+                content.style.transform = `perspective(1500px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+            }
+
+            requestAnimationFrame(animateParallax);
+        }
+        animateParallax();
+
+        //stars parallax
+        const stars = document.querySelectorAll('.star');
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            const mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+            stars.forEach((star, index) => {
+                const depth = (index / stars.length) * 10 + 5; // Depth based on index
+                const offsetX = mouseX * depth;
+                const offsetY = mouseY * depth;
+                star.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0)`;
+            });
+        });   
+    </script>
+</body>
+
+</html>
