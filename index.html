@@ -92,68 +92,6 @@
             }
         }
 
-        /* Orbs  */
-        .orbs-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden; /* AQUÍ es donde funciona */
-    pointer-events: none; /* Los clicks pasan a través */
-    z-index: 2;
-}
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(40px);
-            opacity: 0.15;
-            animation: float-orb 20s infinite ease-in-out;
-            will-change: transform;
-        }
-
-        .orb-1 {
-            width: 300px;
-            height: 300px;
-            background: var(--gold);
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .orb-2 {
-            width: 200px;
-            height: 200px;
-            background: var(--moss);
-            bottom: 20%;
-            right: 15%;
-            animation-delay: 5s;
-        }
-
-        .orb-3 {
-            width: 250px;
-            height: 250px;
-            background: var(--sage);
-            top: 60%;
-            left: 70%;
-            animation-delay: 10s;
-        }
-
-        @keyframes float-orb {
-
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            33% {
-                transform: translate(50px, -30px) scale(1.1);
-            }
-
-            66% {
-                transform: translate(-30px, 40px) scale(0.9);
-            }
-        }
 
         .container {
             position: relative;
@@ -216,14 +154,16 @@
 
         .logo-wrapper {
             margin-bottom: 3rem;
-            position: relative;
+            position: fixed;
+            top: 15px;   
+            right: 15px;
         }
 
         .logo-circle {
-            width: 150px;
-            height: 150px;
+            width: 50px;
+            height: 50px;
             margin: 0 auto 2rem;
-            position: relative;
+            
             animation: pulse 4s ease-in-out infinite;
         }
 
@@ -245,8 +185,8 @@
 
         h1 {
             font-family: "Bodoni Moda", serif;
-            font-size: clamp(3.5rem, 10vw, 7rem);
-            font-weight: 700;
+            font-size: clamp(2.5rem, 10vw, 7rem);
+            font-weight: 100;
             letter-spacing: 0.15em;
             margin-bottom: 2rem;
             color: var(--gold);
@@ -272,7 +212,7 @@
 
         .dates {
             font-family: 'Libre Baskerville', serif;
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: 1rem;
             color: var(--gold);
             letter-spacing: 0.1em;
             margin-top: 2rem;
@@ -412,9 +352,12 @@
     }
 
     /* Logo más pequeño */
+ 
     .logo-circle {
+        top: 5px;
+        right: 5px;
         width: 100px;
-        height: 100px;
+        height: 20px;
     }
 
     /* Símbolos más pequeños y menos opacidad */
@@ -454,7 +397,7 @@
     }
 
     .dates {
-        font-size: 1.5rem;
+        font-size: 0.8rem;
     }
 
     .subtitle,
@@ -471,18 +414,7 @@
 
     <div class="stars" id="stars"></div>
 
-    <!--floaintg orbs -->
-    <div class="orbs-wrapper">
-    <div class="orb orb-1 layer-slow"></div>
-    <div class="orb orb-2 layer-slow"></div>
-    <div class="orb orb-3 layer-slow"></div>
-  
-    <!--floaintg symbols -->
-<!--     <div class="symbol symbol-1 layer-fast">✧</div>
-    <div class="symbol symbol-2 layer-fast">✦</div>
-    <div class="symbol symbol-3 layer-medium">✵</div>
-    <div class="symbol symbol-4 layer-fast">✺</div> -->
-</div>
+
     <div class="container">
         <!-- Mandala deco-->
         <svg class="mandala mandala-1 layer-medium" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -508,9 +440,8 @@
             <circle cx="100" cy="100" r="20" fill="none" stroke="var(--gold)" stroke-width="0.5" opacity="0.4" />
         </svg>
 
-        <!--Content-->
-        <div class="content">
-            <div class="logo-wrapper">
+        <!-- nav  -->
+   <div class="logo-wrapper">
                 <svg class="logo-circle" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="75" cy="75" r="70" fill="none" stroke="var(--gold)" stroke-width="1.5" />
                     <circle cx="75" cy="75" r="50" fill="none" stroke="var(--gold)" stroke-width="1" />
@@ -518,12 +449,15 @@
                     <circle cx="75" cy="75" r="8" fill="var(--sage)" />
                 </svg>
             </div>
-            <h1 class="title layer-medium">Enlighted</h1>
+        <!--Content-->
+        <div class="content">
+         
+            <h1 class="title layer-medium">Enlightened</h1>
             <div class="divider"></div>
             <div class="info">
                 <p class="subtitle">Summer Soltice</p>
             <p class="location">Madrid, Wonderland</p>
-            <p class="dates">12-24 June</p>
+            <p class="dates">12-24 June 2026</p>
             </div>
             
 
@@ -542,6 +476,7 @@
             star.style.top = Math.random() * 100 + 'vh';
             star.style.width = star.style.height = Math.random() * 2 + 1 +
                 'px';
+            star.style.animationDuration = 2 + Math.random() * 3 + 's';
 
             starsContainer.appendChild(star);
         }
@@ -605,7 +540,7 @@
                 const rotateAmount = currentX * 5; // Rotation strength
 
                 //apply transform - translate for parallax, rotate for dynamic effect, scale for depth
-                el.style.transform = `translate3d(${currentX * depth}px, ${currentY * depth}px, 0) rotateY(${rotateAmount}deg))`;
+                el.style.transform = `translate(${currentX * depth}px, ${currentY * depth}px, 0) rotateY(${rotateAmount}deg))`;
             });
 
             //medium layer
@@ -613,7 +548,7 @@
                 const depth = 25 + index * 8; // Adjust depth for each element
                 const rotateAmount = -currentX * 10; // Rotation strength
                 const scale = 1 + Math.abs(currentX) * 0.05; // Scale based on horizontal movement
-                el.style.transform = `translate3d(${currentX * depth}px, ${currentY * depth}px, 0) rotateY(${rotateAmount}deg) scale(${scale})`;
+                el.style.transform = `translate(${currentX * depth}px, ${currentY * depth}px, 0) rotateY(${rotateAmount}deg) scale(${scale})`;
             });
 
             //fast layer
